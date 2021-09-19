@@ -7,7 +7,6 @@ import OtherFunctions
 propagate :: Formula -> Mem -> GuessLevel -> Mem
 propagate [] mem currentLevel = mem
 propagate formula mem currentLevel =
-  --let (newMem, didPropagate) = unitClausePropagation (pureLiteralPropagation formula mem)
   let (newFormula, newMem, didPropagate) = pureLiteralPropagation formula mem currentLevel
    in if didPropagate
         then propagate newFormula newMem currentLevel
@@ -29,7 +28,7 @@ unitClausePropagation (clause : remainingFormula) mem currentLevel =
 propagateUnitClause :: Clause -> Mem -> GuessLevel -> (Mem, Bool)
 propagateUnitClause clause mem currentLevel =
   let literals = getUnassignedLiteralsFromClause clause mem
-   in if count literals == 1 || not (isClauseTrueYet clause mem)
+   in if count literals == 1 && not (isClauseTrueYet clause mem)
         then (assignLiteral (head literals) mem currentLevel, True)
         else (mem, False)
 
@@ -67,12 +66,19 @@ findOnePolarityLiteral formula = findOnePolarityLiteral' formula []
 
 findOnePolarityLiteral' :: Formula -> [Literal] -> [Literal]
 findOnePolarityLiteral' clauses literals
-  = foldl addOrRemoveLiteralsToArray literals clauses
+  = removeLiteralsWithBothPolarities (foldl addOrRemoveLiteralsToArray literals clauses)
+
+removeLiteralsWithBothPolarities :: [Literal] -> [Literal]
+removeLiteralsWithBothPolarities [] = []
+removeLiteralsWithBothPolarities (literal : otherLiterals) = 
+  if negateLit literal `elem` otherLiterals 
+    then removeLiteralsWithBothPolarities (remove (negateLit literal) otherLiterals)
+    else literal : removeLiteralsWithBothPolarities otherLiterals
+  
 
 addOrRemoveLiteralsToArray :: [Literal] -> Clause -> [Literal] --the literals at the end will be the ones with a single polarity
 addOrRemoveLiteralsToArray literals (Lit literal)
   | literal `elem` literals = literals
-  | negateLit literal `elem` literals = remove (negateLit literal) literals
   | otherwise = literal : literals
 addOrRemoveLiteralsToArray literals (Disj cl1 cl2) = addOrRemoveLiteralsToArray (addOrRemoveLiteralsToArray literals cl1) cl2
 

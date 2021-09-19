@@ -33,12 +33,8 @@ isClauseTrueYet (Disj cl1 cl2) mem = isClauseTrueYet cl1 mem || isClauseTrueYet 
 isClauseFalse :: Clause -> Mem -> Bool
 isClauseFalse _ [] = False
 isClauseFalse (Lit literal) mem = let (isLitAssigned, litValue) = getLitValueFromMem literal mem in
-                             isLitAssigned && litValue
-isClauseFalse (Disj cl1 cl2) mem = isClauseFalse cl1 mem || isClauseFalse cl2 mem
---isClauseFalse (Lit (NotVar litName)) mem = let (isLitAssigned, litValue) = getLitValueFromMem litName mem in
---                             isLitAssigned && not litValue
---isClauseFalse (Lit (Var litName)) mem = let (isLitAssigned, litValue) = getLitValueFromMem litName mem in
---                             isLitAssigned && litValue
+                             isLitAssigned && not litValue
+isClauseFalse (Disj cl1 cl2) mem = isClauseFalse cl1 mem && isClauseFalse cl2 mem --it was ||
 
 getLiteralName :: Literal -> String
 getLiteralName (Var litName) = litName
