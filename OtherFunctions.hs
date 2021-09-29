@@ -24,6 +24,7 @@ getLiteralValueFromMem (NotVar myLitName) ( (literalName, literalValue, _) : rem
                                                                                 then (True, not literalValue )
                                                                                 else getLiteralValueFromMem (NotVar myLitName) remainingMem
 
+--TODO: may have to make assignement random, and not to always be true???
 assignLiteral :: Literal -> Mem -> GuessLevel -> Mem
 assignLiteral (Var literal) mem guessLevel = (literal, True, guessLevel) : mem --can be made better (not make them automaticaly false)
 assignLiteral (NotVar literal) mem guessLevel = (literal, False, guessLevel) : mem
