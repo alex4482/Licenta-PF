@@ -3,12 +3,8 @@ import DPLLPropagation
 import DataTypes
 import OtherFunctions
 
-emptyFormula :: Formula
-emptyFormula = []
-
-addClauseToFormula :: Clause -> Formula -> Formula
-addClauseToFormula clause formula = formula ++ [clause]
-
+--call this function with a formula and an array with information about the literals will be returned
+--if the returned array is empty, the formula is unsatisfiable, otherwise, every literal will appear with a value and guess level
 solveFormula :: Formula -> Mem
 solveFormula f = solveFormula' f emptyMem 0
 
@@ -26,8 +22,11 @@ solveFormula' f mem currentLevel =
             let newMem = propagate f mem currentLevel in
                 let (lit, boolean) = findUnassignedLiteral f newMem  --boolean is true if there are unassigned literals
                     in if boolean
-                        then solveFormula' f (assignLiteral lit newMem currentLevel) (currentLevel + 1)
+                        then solveFormula' f (assignLiteral (fromJust lit) newMem currentLevel) (currentLevel + 1)
                         else newMem
+
+--addClauseToFormula :: Clause -> Formula -> Formula
+--addClauseToFormula clause formula = formula ++ [clause]
 
 
 --test for without guessing -- WORKS
