@@ -23,7 +23,12 @@ solveFormula' f mem currentLevel =
                 let (lit, boolean) = findUnassignedLiteral f newMem  --boolean is true if there are unassigned literals
                     in if boolean
                         then solveFormula' f (assignLiteral (fromJust lit) newMem currentLevel) (currentLevel + 1)
-                        else newMem
+                        --else newMem
+                        else let (conflictClause2, isConflict2) = existsConflict f newMem
+                         in if isConflict2
+                              then solveFormula' f newMem currentLevel
+                              else newMem
+                           --
 
 --addClauseToFormula :: Clause -> Formula -> Formula
 --addClauseToFormula clause formula = formula ++ [clause]
@@ -35,4 +40,8 @@ solveFormula' f mem currentLevel =
 --wiki example test -OK answer
 -- [ Disj (Lit (Var "x1")) (Lit (Var "x4")),Disj (Lit (Var "x1")) (Disj (Lit (NotVar "x3")) (Lit (NotVar "x8"))),Disj (Lit (Var "x1")) (Disj (Lit (Var "x8")) (Lit (Var "x12"))),Disj (Lit (Var "x2")) (Lit (Var "x11")),Disj (Lit (NotVar "x7")) (Disj (Lit (NotVar "x3")) (Lit (Var "x9"))),Disj (Lit (NotVar "x7")) (Disj (Lit (Var "x8")) (Lit (NotVar "x9"))), Disj (Lit (Var "x7")) (Disj (Lit (Var "x8")) (Lit (NotVar "x10"))),Disj (Lit (Var "x7")) (Disj (Lit (Var "x10")) (Lit (NotVar "x12")))]
 --[("x10",False,1),("x7",False,0),("x8",True,0),("x9",False,0),("x12",False,0),("x1",True,0),("x4",True,0),("x3",False,0),("x2",True,0),("x11",True,0)]
---have to change propagation so that it only does one before guessing
+
+{- bad example
+solveFormula [Lit(Var "x1"), Lit(NotVar "x1")]
+[]    
+-}

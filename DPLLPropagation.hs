@@ -9,7 +9,6 @@ import OtherFunctions
 --calling this function with the current clauses and memory will add to the memory any literal that can be learned through
 --unit clauses or pure literal propagation
 --currently, if a new literal is found, unit clause and pure literal propagation will be done again, until no literals are learned
---TODO: should it be like the above line says, or do only 1 cicle of unit clause and pure literal propagation when "propagate" is called???
 propagate :: Formula -> Mem -> GuessLevel -> Mem
 propagate [] mem currentLevel = mem
 propagate formula mem currentLevel =
