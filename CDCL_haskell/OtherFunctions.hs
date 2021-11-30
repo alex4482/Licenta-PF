@@ -1,6 +1,6 @@
-module OtherFunctions where
+module CDCL_haskell.OtherFunctions where
 
-import DataTypes
+import CDCL_haskell.DataTypes
 
 
 --all functions in this file have very suggestive names, and may be used be different functions in different files

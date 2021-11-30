@@ -1,8 +1,8 @@
-module ConflictFunctions where
+module CDCL_haskell.ConflictFunctions where
 
 import Data.List
-import DataTypes
-import OtherFunctions
+import CDCL_haskell.DataTypes
+import CDCL_haskell.OtherFunctions
 
 --THE FUNCTIONS IN THIS FILE ARE STRICTLY USED FOR THE DISCOVERY AND SOLVING OF CONFLICTS
 

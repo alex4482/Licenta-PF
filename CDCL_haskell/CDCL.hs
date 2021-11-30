@@ -1,7 +1,7 @@
-import ConflictFunctions
-import DPLLPropagation
-import DataTypes
-import OtherFunctions
+import CDCL_haskell.ConflictFunctions
+import CDCL_haskell.DPLLPropagation
+import CDCL_haskell.DataTypes
+import CDCL_haskell.OtherFunctions
 
 --call this function with a formula and an array with information about the literals will be returned
 --if the returned array is empty, the formula is unsatisfiable, otherwise, every literal will appear with a value and guess level

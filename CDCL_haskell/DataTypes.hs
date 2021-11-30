@@ -1,4 +1,4 @@
-module DataTypes where
+module CDCL_haskell.DataTypes where
 
 --a literal has a string name and can be negated
 data Literal = Var String | NotVar String deriving (Eq, Show)

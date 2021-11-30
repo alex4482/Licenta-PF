@@ -1,7 +1,8 @@
-module DPLLPropagation where
+module CDCL_haskell.DPLLPropagation where
 
-import DataTypes
-import OtherFunctions
+import CDCL_haskell.DataTypes
+
+import CDCL_haskell.OtherFunctions
 
 --ALL FUNCTIONS IN THIS FILE ARE USED STRICTLY FOR THE DPLL PROPAGATION STEPS
 
@@ -77,13 +78,13 @@ findOnePolarityLiteral' clauses literals
 --used to find literals that only appear with 1 polarity
 removeLiteralsWithBothPolarities :: [Literal] -> [Literal]
 removeLiteralsWithBothPolarities [] = []
-removeLiteralsWithBothPolarities (literal : otherLiterals) = 
-  if negateLit literal `elem` otherLiterals 
+removeLiteralsWithBothPolarities (literal : otherLiterals) =
+  if negateLit literal `elem` otherLiterals
     then removeLiteralsWithBothPolarities (remove (negateLit literal) otherLiterals)
     else literal : removeLiteralsWithBothPolarities otherLiterals
-  
+
 --the literals at the end will be the ones with a single polarity
-addOrRemoveLiteralsToArray :: [Literal] -> Clause -> [Literal] 
+addOrRemoveLiteralsToArray :: [Literal] -> Clause -> [Literal]
 addOrRemoveLiteralsToArray literals (Lit literal)
   | literal `elem` literals = literals
   | otherwise = literal : literals
