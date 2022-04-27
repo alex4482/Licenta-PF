@@ -75,7 +75,8 @@ findOnePolarityLiteral' :: Formula -> [Literal] -> [Literal]
 findOnePolarityLiteral' clauses literals
   = removeLiteralsWithBothPolarities (foldl addOrRemoveLiteralsToArray literals clauses)
 
---used to find literals that only appear with 1 polarity
+--used to find literals that only appear with 1 polarity  
+--g?????????????????????????????????????????????????????????????gresit?? lipseste (remove literal otherLiterals)?
 removeLiteralsWithBothPolarities :: [Literal] -> [Literal]
 removeLiteralsWithBothPolarities [] = []
 removeLiteralsWithBothPolarities (literal : otherLiterals) =
@@ -83,7 +84,7 @@ removeLiteralsWithBothPolarities (literal : otherLiterals) =
     then removeLiteralsWithBothPolarities (remove (negateLit literal) otherLiterals)
     else literal : removeLiteralsWithBothPolarities otherLiterals
 
---the literals at the end will be the ones with a single polarity
+--the literals at the end will be the ones with a single polarity????
 addOrRemoveLiteralsToArray :: [Literal] -> Clause -> [Literal]
 addOrRemoveLiteralsToArray literals (Lit literal)
   | literal `elem` literals = literals
